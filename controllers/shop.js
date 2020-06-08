@@ -3,36 +3,44 @@ const Cart = require('../models/cart');
 
 // /GET /
 exports.indexPage = (req, res, next) => {
-  Product.fetchAll((products) => {
-    res.render('shop/index', {
-      products: products,
-      titlePage: 'Home',
-      path: '/',
-    });
-  });
+  console.log('>>> 1 - ');
+  Product.fetchAll()
+    .then(([rows, metadata]) => {
+      res.render('shop/index', {
+        products: rows,
+        titlePage: 'Home',
+        path: '/',
+      });
+    })
+    .catch((error) => console.log(error));
 };
 
 // /GET /products
-exports.productsPage = (req, res, next) => {
-  Product.fetchAll((products) => {
-    res.render('shop/product-list', {
-      products: products,
-      titlePage: 'All products',
-      path: '/products',
-    });
-  });
+exports.productListPage = (req, res, next) => {
+  Product.fetchAll()
+    .then(([rows, metadata]) => {
+      res.render('shop/index', {
+        products: rows,
+        titlePage: 'Products',
+        path: '/products',
+      });
+    })
+    .catch((error) => console.log(error));
 };
 
-// /GET //products/:id
-exports.productPage = (req, res, next) => {
+// /GET /products/:id
+exports.productDetailPage = (req, res, next) => {
   const id = req.params.id;
-  Product.findById(id, (product) => {
-    res.render('shop/product-detail', {
-      product: product,
-      titlePage: product ? product.title : 'not found!',
-      path: '/products',
-    });
-  });
+  Product.findById(id)
+    .then(([rows]) => {
+      console.log('>>> ', rows);
+      res.render('shop/product-detail', {
+        product: rows[0],
+        titlePage: rows[0] ? rows[0].title : 'not found!',
+        path: '/products',
+      });
+    })
+    .catch((error) => console.log(error));
 };
 
 // /GET /cart
@@ -56,23 +64,6 @@ exports.cartPage = (req, res, next) => {
   });
 };
 
-// /POST /cart
-exports.addCart = (req, res, next) => {
-  const id = req.body.id;
-  Product.findById(id, (product) => {
-    Cart.addProduct(id, +product.price);
-  });
-  res.redirect('/cart');
-};
-
-// /GET /orders
-exports.ordersPage = (req, res, next) => {
-  res.render('shop/orders', {
-    titlePage: 'Your orders',
-    path: '/orders',
-  });
-};
-
 // /GET /checkout
 exports.checkoutPage = (req, res, next) => {
   res.render('shop/checkout', {
@@ -80,6 +71,24 @@ exports.checkoutPage = (req, res, next) => {
     path: '/checkout',
   });
 };
+
+// /GET /orders
+exports.orderListPage = (req, res, next) => {
+  res.render('shop/orders', {
+    titlePage: 'Your orders',
+    path: '/orders',
+  });
+};
+
+// /POST /cart
+exports.addCartProduct = (req, res, next) => {
+  const id = req.body.id;
+  Product.findById(id, (product) => {
+    Cart.addProduct(id, +product.price);
+  });
+  res.redirect('/cart');
+};
+
 
 exports.deleteCartProduct = (req, res, next) => {
   const id = req.body.id;

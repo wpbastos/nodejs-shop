@@ -4,8 +4,8 @@ const path = require('path');
 const cartFile = path.join(path.dirname(process.mainModule.filename), 'data', 'cart.json');
 
 const getCartFromFile = (callback) => {
-  fs.readFile(cartFile, (err, fileContent) => {
-    if (err) {
+  fs.readFile(cartFile, (error, fileContent) => {
+    if (error) {
       callback({ products: [], totalPrice: 0 });
     } else {
       try {
@@ -33,9 +33,9 @@ module.exports = class Cart {
         cart.products = [...cart.products, updatedProduct];
       }
       cart.totalPrice = cart.totalPrice + productPrice;
-      fs.writeFile(cartFile, JSON.stringify(cart), (err) => {
-        if (err) {
-          console.error('error', err);
+      fs.writeFile(cartFile, JSON.stringify(cart), (error) => {
+        if (error) {
+          console.error('error', error);
         }
       });
     });
@@ -49,9 +49,9 @@ module.exports = class Cart {
       const productQuantity = updatedCart.products[existingProductIndex].quantity;
       updatedCart.totalPrice = updatedCart.totalPrice - productQuantity * productPrice;
       updatedCart.products = updatedCart.products.filter((p) => p.id !== id);
-      fs.writeFile(cartFile, JSON.stringify(updatedCart), (err) => {
-        if (err) {
-          console.error('[error]', err);
+      fs.writeFile(cartFile, JSON.stringify(updatedCart), (error) => {
+        if (error) {
+          console.error('[error]', error);
         }
       });
     });

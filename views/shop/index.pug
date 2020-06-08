@@ -1,4 +1,21 @@
 extends ../_layouts/layout.pug
+block styles
+  link(rel="stylesheet", href="/css/product.css")
 block content
   main
-    h1 Nothing here!
+    if products.length > 0
+      .grid
+        each product in products
+          article.card.product-item
+            header.card__header
+              h1.product__title= product.title
+            div.card__image
+              img(src= product.imageUrl, alt="A Book")
+            div.card__content
+              h2.product__price= Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(product.price)
+              p.product__description= product.description
+            .card__actions
+              a.btn(href="/products/" + product.id) Detail
+              include ../_layouts/addCartButton.pug
+    else
+      h1 No products found!

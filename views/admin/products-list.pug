@@ -10,12 +10,14 @@ block content
             header.card__header
               h1.product__title= product.title
             div.card__image
-              img(src= product.image, alt="A Book")
+              img(src= product.imageUrl, alt= product.title)
             div.card__content
               h2.product__price= Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(product.price)
               p.product__description= product.description
             .card__actions
               a.btn(href=`/admin/edit-product/${product.id}`) Edit
-              a.btn(href=`/admin/delete-product/${product.id}`) Delete
+              form(action=("/admin/delete-product"), method="POST")
+                input(type="hidden", name="id", value=product.id)
+                button.btn(type="submit") Delete
     else
       h1 No products found!

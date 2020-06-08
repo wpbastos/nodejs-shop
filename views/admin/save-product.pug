@@ -5,19 +5,19 @@ block styles
 block content
   main
     form.product-form(action=(edit ? "/admin/edit-product" : "/admin/add-product"), method="POST")
+      if edit
+        input(type="hidden", name="id", value=product.id)
       .form-control
         label(for="title") Title
         input(type="text", name="title", value=(edit ? product.title : ''), autofocus="true" checked)#title
       .form-control
-        label(for="image") Image URL
-        input(type="text", name="image", value=(edit ? product.image : ''))#image
-      .form-control
         label(for="price") Price
         input(type="number", min="0.01", step="0.01", name="price", value=(edit ? product.price : ''))#price
       .form-control
+        label(for="image") Image URL
+        input(type="text", name="image", value=(edit ? product.imageUrl : ''))#image
+      .form-control
         label(for="description") Description
         textarea(name="description", rows="5")#description
-          =(edit ? product.description : '')
+          = (edit ? product.description : '')
       button.btn(type="submit") Save
-      if edit
-        input(type="hidden", name="id", value=product.id)

@@ -6,17 +6,17 @@ const router = express.Router();
 
 router.get('/', shopController.indexPage);
 
-router.get('/products', shopController.productsPage);
+router.get('/product', shopController.productListPage);
 
-router.get('/products/:id', shopController.productPage);
+router.get('/product/:id', shopController.productDetailPage);
 
 router.get('/cart', shopController.cartPage);
 
-router.get('/orders', shopController.ordersPage);
-
 router.get('/checkout', shopController.checkoutPage);
 
-router.post('/cart', shopController.addCart);
+router.get('/order', shopController.orderListPage);
+
+router.post('/cart', shopController.addCartProduct);
 
 router.post('/cart-delete-item', shopController.deleteCartProduct);
 

@@ -198,3 +198,6 @@ fabric.properties
 .idea/**/markdown-navigator/
 
 # End of https://www.gitignore.io/api/node,webstorm
+
+docker-compose.yml
+.stack.yml.swp
