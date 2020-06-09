@@ -3,9 +3,9 @@ const logger = require('morgan');
 const express = require('express');
 const bodyParser = require('body-parser');
 const createError = require('http-errors');
-const cookieParser = require('cookie-parser');
 const sassMiddleware = require('node-sass-middleware');
 
+const User = require('./models/user');
 const shopRoutes = require('./routes/shop');
 const adminRoutes = require('./routes/admin');
 
@@ -18,7 +18,6 @@ app.set('view engine', 'pug');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(
   sassMiddleware({
     src: path.join(__dirname, 'public'),
@@ -28,6 +27,16 @@ app.use(
 );
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
+
+// Dummy user to use :)
+app.use((req, res, next) => {
+  User.findByPk(1)
+    .then((user) => {
+      req.user = user;
+      next();
+    })
+    .catch((error) => console.log(error));
+});
 
 app.use('/', shopRoutes);
 app.use('/admin', adminRoutes);

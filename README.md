@@ -8,6 +8,7 @@ SHOP
 
 /cart -> shopController.addCartProduct
 /cart-delete-item -> shopController.deleteCartProduct
+/create-order -> 
 
 ADMIN
 /admin/product -> adminController.productListPage
@@ -17,15 +18,3 @@ ADMIN
 /admin/add-product -> adminController.addProduct
 /admin/edit-product -> adminController.editProduct
 /admin/delete-product -> adminController.deleteProduct
-
-Product
-product.save()
-product.update()
-Product.fetchAll();
-Product.findByID(id)
-Product.delete(id)
-
-title
-price
-imageURL
-description

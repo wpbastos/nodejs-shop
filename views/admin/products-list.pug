@@ -18,6 +18,6 @@ block content
               a.btn(href=`/admin/edit-product/${product.id}`) Edit
               form(action=("/admin/delete-product"), method="POST")
                 input(type="hidden", name="id", value=product.id)
-                button.btn(type="submit") Delete
+                button.btn(type="submit" disable=true) Delete
     else
       h1 No products found!
