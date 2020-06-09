@@ -7,7 +7,7 @@ block content
       h1= product.title
       hr
       div
-        img(src= product.imageUrl, alt= product.title, style="width:100%")
+        img.image(src= product.imageUrl, alt= product.title)
       h2= Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(product.price)
       p= product.description
       include ../_layouts/addCartButton.pug

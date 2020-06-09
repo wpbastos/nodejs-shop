@@ -15,7 +15,7 @@ block content
               h2.product__price= Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(product.price)
               p.product__description= product.description
             .card__actions
-              a.btn(href="/products/" + product.id) Detail
+              a.btn(href="/product/" + product.id) Detail
               include ../_layouts/addCartButton.pug
     else
       h1 No products found!

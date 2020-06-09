@@ -14,8 +14,8 @@ block content
         label(for="price") Price
         input(type="number", min="0.01", step="0.01", name="price", value=(edit ? product.price : ''))#price
       .form-control
-        label(for="image") Image URL
-        input(type="text", name="image", value=(edit ? product.imageUrl : ''))#image
+        label(for="imageUrl") Image URL
+        input(type="text", name="imageUrl", value=(edit ? product.imageUrl : ''))#imageUrl
       .form-control
         label(for="description") Description
         textarea(name="description", rows="5")#description
