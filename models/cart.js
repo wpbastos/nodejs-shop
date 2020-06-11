@@ -6,7 +6,7 @@ const sequelize = require('../helpers/database');
 class Cart extends Model {}
 Cart.init(
   {
-    id: {
+    _id: {
       type: Sequelize.INTEGER,
       autoIncrement: true,
       allowNull: false,

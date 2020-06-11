@@ -6,7 +6,7 @@ const sequelize = require('../helpers/database');
 class User extends Model {}
 User.init(
   {
-    id: {
+    _id: {
       type: Sequelize.INTEGER,
       autoIncrement: true,
       allowNull: false,

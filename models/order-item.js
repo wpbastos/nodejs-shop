@@ -6,7 +6,7 @@ const sequelize = require('../helpers/database');
 class OrderItem extends Model {}
 OrderItem.init(
   {
-    id: {
+    _id: {
       type: Sequelize.INTEGER,
       autoIncrement: true,
       allowNull: false,

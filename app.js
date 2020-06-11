@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 const createError = require('http-errors');
 const sassMiddleware = require('node-sass-middleware');
 
-const User = require('./models/user');
 const shopRoutes = require('./routes/shop');
 const adminRoutes = require('./routes/admin');
 
@@ -27,16 +26,6 @@ app.use(
 );
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
-
-// Dummy user to use :)
-app.use((req, res, next) => {
-  User.findByPk(1)
-    .then((user) => {
-      req.user = user;
-      next();
-    })
-    .catch((error) => console.log(error));
-});
 
 app.use('/', shopRoutes);
 app.use('/admin', adminRoutes);
