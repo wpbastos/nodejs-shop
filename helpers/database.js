@@ -15,9 +15,6 @@ const optionsDB = {
 
 const urlDB = process.env.MONGO_ATLAS_URL;
 
-console.log('>>> ', optionsDB);
-console.log('>>> ', urlDB);
-
 const mongoConnect = (callback) => {
   MongoClient.connect(urlDB, optionsDB)
     .then((client) => {
