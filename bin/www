@@ -4,52 +4,17 @@ const http = require('http');
 const debug = require('debug')('shop:server');
 
 const app = require('../app');
+const { mongoConnect } = require('../helpers/database');
 
 const port = normalizePort(process.env.PORT || '3000');
 const server = http.createServer(app);
 app.set('port', port);
 
-const sequelize = require('../helpers/database');
-const User = require('../models/user');
-const Product = require('../models/product');
-const Cart = require('../models/cart');
-const CartItem = require('../models/cart-item');
-const Order = require('../models/order');
-const OrderItem = require('../models/order-item');
-
-User.hasOne(Cart);
-Cart.belongsTo(User);
-
-User.hasMany(Product);
-Product.belongsTo(User);
-
-User.hasMany(Order);
-Order.belongsTo(User);
-
-Cart.belongsToMany(Product, { through: CartItem });
-Product.belongsToMany(Cart, { through: CartItem });
-
-Order.belongsToMany(Product, { through: OrderItem });
-Product.belongsToMany(Order, { through: OrderItem });
-
-sequelize
-  // .sync({ force: true })
-  .sync()
-  .then(() => {
-    return User.findByPk(1);
-  })
-  .then((user) => {
-    if (!user) {
-      return User.create({ name: 'Wellington', email: 'test@test.com' });
-    }
-    return user; // Promise.resolve(user);
-  })
-  .then((user) => {
-    server.on('error', onError);
-    server.on('listening', onListening);
-    server.listen(port);
-  })
-  .catch((error) => console.log(error));
+mongoConnect(() => {
+  server.listen(port);
+  server.on('error', onError);
+  server.on('listening', onListening);
+});
 
 function normalizePort(val) {
   const port = parseInt(val, 10);

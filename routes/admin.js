@@ -8,7 +8,7 @@ router.get('/product', adminController.productListPage);
 
 router.get('/add-product', adminController.addProductPage);
 
-router.get('/edit-product/:id', adminController.editProductPage);
+router.get('/edit-product/:_id', adminController.editProductPage);
 
 router.post('/add-product', adminController.addProduct);
 

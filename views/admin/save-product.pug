@@ -6,7 +6,7 @@ block content
   main
     form.product-form(action=(edit ? "/admin/edit-product" : "/admin/add-product"), method="POST")
       if edit
-        input(type="hidden", name="id", value=product.id)
+        input(type="hidden", name="_id", value=product._id)
       .form-control
         label(for="title") Title
         input(type="text", name="title", value=(edit ? product.title : ''), autofocus="true" checked)#title
@@ -20,4 +20,4 @@ block content
         label(for="description") Description
         textarea(name="description", rows="5")#description
           = (edit ? product.description : '')
-      button.btn(type="submit") Save
+      button.btn(type="submit") #{edit ? 'Update Product' : 'Insert Product'}
