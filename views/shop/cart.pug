@@ -1,30 +1,20 @@
 extends ../_layouts/layout.pug
 block styles
-  link(rel="stylesheet", href="/css/product.css")
+  link(rel="stylesheet", href="/css/cart.css")
 block content
   main
     if cartProducts.length > 0
-      ul
+      ul.cart__item-list
         each cartProduct in cartProducts
-          li
-            p #{cartProduct.product.title} (#{cartProduct.quantity})
+          li.cart__item
+            h1 #{cartProduct.title}
+            h2 Quantity: #{cartProduct.cartItem.quantity}
             form(action="/cart-delete-item", method="POST")
-              input(type="hidden", name="id", value=cartProduct.product.id)
-              input(type="hidden", name="price", value=cartProduct.product.price)
-              button.btn(type="submit") DELETE
+              input(type="hidden", name="_id", value=cartProduct._id)
+              button.btn.danger(type="submit") DELETE
+      hr
+      div.centered
+        form(action="/create-order", method="POST")
+          button.btn(type="submit") Order
     else
       h1 No products in cart!
-
-
-
-
-//- .grid
-//-         each cartProduct in cartProducts
-//-           article.card.product-item
-//-             header.card__header
-//-               h1.product__title= cartProduct.product.title
-//-             div.card__image
-//-               img(src= cartProduct.product.image, alt="A Book")
-//-             div.card__content
-//-               h2.product__price= Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(cartProduct.product.price)
-//-               p.product__description= cartProduct.product.description

@@ -15,9 +15,9 @@ block content
               h2.product__price= Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(product.price)
               p.product__description= product.description
             .card__actions
-              a.btn(href=`/admin/edit-product/${product.id}`) Edit
+              a.btn(href=`/admin/edit-product/${product._id}`) Edit
               form(action=("/admin/delete-product"), method="POST")
-                input(type="hidden", name="id", value=product.id)
-                button.btn(type="submit") Delete
+                input(type="hidden", name="_id", value=product._id)
+                button.btn(type="submit" disable=true) Delete
     else
       h1 No products found!
