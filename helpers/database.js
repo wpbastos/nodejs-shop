@@ -6,11 +6,17 @@ let _db;
 const optionsDB = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  // useCreateIndex: true,
+  useCreateIndex: true,
   retryWrites: true,
+  user: process.env.MONGO_ATLAS_USR,
+  pass: process.env.MONGO_ATLAS_PSW,
   authSource: 'admin',
 };
-const urlDB = 'mongodb://admin:admin@127.0.0.1:27017/shop';
+
+const urlDB = process.env.MONGO_ATLAS_URL;
+
+console.log('>>> ', optionsDB);
+console.log('>>> ', urlDB);
 
 const mongoConnect = (callback) => {
   MongoClient.connect(urlDB, optionsDB)

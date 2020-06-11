@@ -201,3 +201,5 @@ fabric.properties
 
 docker-compose.yml
 .stack.yml.swp
+nodemon.json
+bin/nodemon.json
