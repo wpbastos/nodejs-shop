@@ -5,7 +5,7 @@ exports.productListPage = (req, res, next) => {
   Product.fetchAll()
     .then((products) => {
       res.render('admin/products-list', {
-        products: products,
+        products,
         titlePage: 'Admin Products',
         path: '/admin/product',
       });
@@ -31,7 +31,7 @@ exports.editProductPage = (req, res, next) => {
         return res.redirect('/admin/product');
       }
       res.render('admin/save-product', {
-        product: product,
+        product,
         edit: true,
         titlePage: 'Edit product',
         path: '/admin/product',
@@ -46,7 +46,7 @@ exports.addProduct = (req, res, next) => {
   const price = req.body.price;
   const imageUrl = req.body.imageUrl || '/images/book.jpeg';
   const description = req.body.description;
-  const product = new Product(title, price, imageUrl, description);
+  const product = new Product(title, price, imageUrl, description, req.user._id);
   product
     .save()
     .then((result) => {
@@ -62,7 +62,8 @@ exports.editProduct = (req, res, next) => {
   const price = req.body.price;
   const imageUrl = req.body.imageUrl;
   const description = req.body.description;
-  product = new Product(title, price, imageUrl, description, _id);
+  product = new Product(title, price, imageUrl, description, req.user._id, _id);
+  console.log('>>> 1', product);
   product
     .save()
     .then(() => {

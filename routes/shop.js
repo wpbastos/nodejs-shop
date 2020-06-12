@@ -10,16 +10,14 @@ router.get('/product', shopController.productListPage);
 
 router.get('/product/:_id', shopController.productDetailPage);
 
-// router.get('/cart', shopController.cartPage);
+router.get('/cart', shopController.cartPage);
 
-// router.get('/checkout', shopController.checkoutPage);
+router.get('/order', shopController.orderListPage);
 
-// router.get('/order', shopController.orderListPage);
+router.post('/cart', shopController.addCartProduct);
 
-// router.post('/cart', shopController.addCartProduct);
+router.post('/cart-delete-item', shopController.deleteCartProduct);
 
-// router.post('/cart-delete-item', shopController.deleteCartProduct);
-
-// router.post('/create-order', shopController.order);
+router.post('/create-order', shopController.order);
 
 module.exports = router;
