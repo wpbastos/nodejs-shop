@@ -3,14 +3,14 @@ block styles
   link(rel="stylesheet", href="/css/cart.css")
 block content
   main
-    if cartProducts.length > 0
+    if cart.length > 0
       ul.cart__item-list
-        each cartProduct in cartProducts
+        each item in cart
           li.cart__item
-            h1 #{cartProduct.title}
-            h2 Quantity: #{cartProduct.cartItem.quantity}
+            h1 #{item.product.title}
+            h2 Quantity: #{item.quantity}
             form(action="/cart-delete-item", method="POST")
-              input(type="hidden", name="_id", value=cartProduct._id)
+              input(type="hidden", name="productId", value=item.product._id)
               button.btn.danger(type="submit") DELETE
       hr
       div.centered

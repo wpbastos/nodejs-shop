@@ -2,15 +2,17 @@ const mongodb = require('mongodb');
 const { getDb } = require('../helpers/database');
 
 class Product {
-  constructor(title, price, imageUrl, description, _id = null) {
+  constructor(title, price, imageUrl, description, userId, _id = null) {
     this._id = _id ? new mongodb.ObjectId(_id) : _id;
     this.title = title;
     this.price = price;
     this.imageUrl = imageUrl;
     this.description = description;
+    this.userId = userId;
   }
 
   save() {
+    console.log('>>> ', this._id);
     if (this._id) {
       return getDb().collection('product').updateOne({ _id: this._id }, { $set: this });
     } else {

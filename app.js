@@ -7,6 +7,7 @@ const sassMiddleware = require('node-sass-middleware');
 
 const shopRoutes = require('./routes/shop');
 const adminRoutes = require('./routes/admin');
+const User = require('./models/user');
 
 const app = express();
 
@@ -26,6 +27,15 @@ app.use(
 );
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use((req, res, next) => {
+  User.findById('5ee383c2baebc20006a92d36')
+    .then((user) => {
+      req.user = new User(user.name, user.email, user.cart, user._id);
+      next();
+    })
+    .catch((error) => console.log(error));
+});
 
 app.use('/', shopRoutes);
 app.use('/admin', adminRoutes);
