@@ -1,15 +1,37 @@
 const path = require('path');
 const logger = require('morgan');
 const express = require('express');
+const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const createError = require('http-errors');
 const sassMiddleware = require('node-sass-middleware');
 
+const User = require('./models/user');
 const shopRoutes = require('./routes/shop');
 const adminRoutes = require('./routes/admin');
-const User = require('./models/user');
 
 const app = express();
+
+const optionsDB = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+  retryWrites: true,
+  user: process.env.MONGO_ATLAS_USR,
+  pass: process.env.MONGO_ATLAS_PSW,
+  authSource: 'admin',
+};
+const urlDB = process.env.MONGO_ATLAS_URL;
+
+mongoose
+  .connect(urlDB, optionsDB)
+  .then(() => {
+    console.info('Connected to database!');
+  })
+  .catch((error) => {
+    console.error('Connection failed!');
+    console.error(error);
+  });
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -29,9 +51,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use((req, res, next) => {
-  User.findById('5ee383c2baebc20006a92d36')
+  User.findOne()
     .then((user) => {
-      req.user = new User(user.name, user.email, user.cart, user._id);
+      if (!user) {
+        const user = new User({ name: 'Wellington', email: 'test@test.com', cart: [] });
+        return user.save();
+      }
+      return user;
+    })
+    .then((user) => {
+      req.user = user;
       next();
     })
     .catch((error) => console.log(error));
@@ -41,7 +70,7 @@ app.use('/', shopRoutes);
 app.use('/admin', adminRoutes);
 
 // catch 404 and forward to error handler
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
   next(createError(404, 'Page not found!'));
 });
 

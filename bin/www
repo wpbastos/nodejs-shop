@@ -4,17 +4,14 @@ const http = require('http');
 const debug = require('debug')('shop:server');
 
 const app = require('../app');
-const { mongoConnect } = require('../helpers/database');
 
 const port = normalizePort(process.env.PORT || '3000');
-const server = http.createServer(app);
 app.set('port', port);
 
-mongoConnect(() => {
-  server.listen(port);
-  server.on('error', onError);
-  server.on('listening', onListening);
-});
+const server = http.createServer(app);
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
 
 function normalizePort(val) {
   const port = parseInt(val, 10);
