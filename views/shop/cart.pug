@@ -2,19 +2,24 @@ extends ../_layouts/layout.pug
 block styles
   link(rel="stylesheet", href="/css/cart.css")
 block content
+  - var total = 0
   main
     if cart.length > 0
       ul.cart__item-list
         each item in cart
           li.cart__item
-            h1 #{item.product.title}
+            h1 #{item.productId.title}
             h2 Quantity: #{item.quantity}
+            h2 Total: #{Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(item.quantity * item.productId.price)}
+            - total = total + (item.quantity * item.productId.price)
             form(action="/cart-delete-item", method="POST")
-              input(type="hidden", name="productId", value=item.product._id)
+              input(type="hidden", name="productId", value=item._id)
               button.btn.danger(type="submit") DELETE
       hr
       div.centered
+        h1 Total: #{Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(total)}
         form(action="/create-order", method="POST")
+          input(type="hidden", name="total", value=total)
           button.btn(type="submit") Order
     else
       h1 No products in cart!
